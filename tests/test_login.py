@@ -21,3 +21,11 @@ def test_username_field_accepts_text(driver):
     login_page.enter_username("student-test")
 
     assert login_page.username_value() == "student-test"
+
+
+def test_password_field_accepts_text(driver):
+    login_page = LoginPage(driver).open()
+
+    login_page.enter_password("sample-password")
+
+    assert login_page.password_value() == "sample-password"
