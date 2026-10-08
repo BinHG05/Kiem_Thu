@@ -13,3 +13,11 @@ def test_username_and_password_are_empty_on_first_load(driver):
 
     assert login_page.username_value() == ""
     assert login_page.password_value() == ""
+
+
+def test_username_field_accepts_text(driver):
+    login_page = LoginPage(driver).open()
+
+    login_page.enter_username("student-test")
+
+    assert login_page.username_value() == "student-test"
