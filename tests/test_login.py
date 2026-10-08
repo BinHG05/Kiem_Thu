@@ -47,3 +47,11 @@ def test_remember_me_is_unselected_on_first_load(driver):
     login_page = LoginPage(driver).open()
 
     assert not login_page.is_remember_me_selected()
+
+
+def test_remember_me_can_be_selected(driver):
+    login_page = LoginPage(driver).open()
+
+    login_page.select_remember_me()
+
+    assert login_page.is_remember_me_selected()
