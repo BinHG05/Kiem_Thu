@@ -29,3 +29,9 @@ def test_password_field_accepts_text(driver):
     login_page.enter_password("sample-password")
 
     assert login_page.password_value() == "sample-password"
+
+
+def test_password_field_is_masked(driver):
+    login_page = LoginPage(driver).open()
+
+    assert login_page.password_input_type() == "password"
