@@ -25,5 +25,29 @@ $env:UTC_PASS="your_password"
 pytest
 ```
 
+## Allure report
+
+Generate Allure result files with:
+
+```powershell
+pytest --alluredir=allure-results --clean-alluredir
+```
+
+With the Allure command-line tool installed, open the interactive report:
+
+```powershell
+allure serve allure-results
+```
+
+Or generate and open a static report:
+
+```powershell
+allure generate allure-results -o allure-report --clean
+allure open allure-report
+```
+
+Each test has an Allure title, feature, story and severity. Failed tests also
+include a headless-browser screenshot and page-source attachment.
+
 Test đăng nhập hợp lệ cần cả `UTC_USER` và `UTC_PASS`. Selenium Manager sẽ tự
 xử lý ChromeDriver khi cần.

@@ -1,5 +1,6 @@
 from urllib.parse import urlparse
 
+import allure
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
@@ -17,20 +18,24 @@ class LoginPage(BasePage):
     FORGOT_PASSWORD_LINK = (By.CSS_SELECTOR, "a[href='/Login/GetPass']")
     GOOGLE_LOGIN_LINK = (By.CSS_SELECTOR, "a.button[href*='accounts.google.com']")
 
+    @allure.step("Open the UTC login page")
     def open(self):
         self.driver.get(self.URL)
         self.wait_for_element(self.USERNAME)
         return self
 
+    @allure.step("Enter credentials and submit login")
     def login(self, username, password):
         self.enter_username(username)
         if password:
             self.enter_password(password)
         return self.click(self.LOGIN_BUTTON)
 
+    @allure.step("Enter username")
     def enter_username(self, username):
         self.type(self.USERNAME, username)
 
+    @allure.step("Enter password")
     def enter_password(self, password):
         self.type(self.PASSWORD, password)
 
@@ -59,6 +64,7 @@ class LoginPage(BasePage):
     def is_remember_me_selected(self):
         return self.driver.find_element(*self.REMEMBER_ME).is_selected()
 
+    @allure.step("Select remember me")
     def select_remember_me(self):
         if not self.is_remember_me_selected():
             self.click(self.REMEMBER_ME_LABEL)
