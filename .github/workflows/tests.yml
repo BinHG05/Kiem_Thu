@@ -1,0 +1,80 @@
+name: Selenium tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Login smoke tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run smoke tests and create Allure results
+        run: >-
+          pytest -v -m "not integration"
+          --alluredir=allure-results
+          --clean-alluredir
+          --junitxml=pytest-results.xml
+
+      - name: Upload smoke test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-test-report
+          path: |
+            allure-results
+            pytest-results.xml
+
+  authenticated:
+    name: Authenticated login test
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      UTC_USER: ${{ secrets.UTC_USER }}
+      UTC_PASS: ${{ secrets.UTC_PASS }}
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run authenticated test and create Allure results
+        run: >-
+          pytest -v -m integration
+          --alluredir=allure-results
+          --clean-alluredir
+          --junitxml=pytest-results.xml
+
+      - name: Upload authenticated test evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: authenticated-test-report
+          path: |
+            allure-results
+            pytest-results.xml

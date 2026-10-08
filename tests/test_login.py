@@ -129,6 +129,7 @@ def test_google_login_link_targets_google_accounts(driver):
 @allure.story("Valid credentials")
 @allure.title("TC11 - User can log in with valid credentials")
 @allure.severity(allure.severity_level.BLOCKER)
+@pytest.mark.integration
 def test_login_success(driver):
     username = os.getenv("UTC_USER")
     password = os.getenv("UTC_PASS")

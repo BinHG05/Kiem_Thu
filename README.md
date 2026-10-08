@@ -181,3 +181,25 @@ git status
 ```
 
 Không commit password, file `.env`, `allure-results` hoặc `allure-report`.
+
+## 11. Chạy CI trên GitHub Actions
+
+Workflow nằm tại `.github/workflows/tests.yml`.
+
+- Mỗi `push` và Pull Request chạy nhóm smoke test TC01–TC10.
+- TC11 không chạy tự động trên Pull Request vì cần tài khoản thật.
+- Có thể chạy TC11 bằng tab **Actions** → **Selenium tests** → **Run workflow**.
+
+Trước khi chạy TC11 trên GitHub, tạo hai Repository Secrets:
+
+```text
+UTC_USER
+UTC_PASS
+```
+
+Kết quả pytest và dữ liệu Allure được lưu dưới dạng artifact ở mỗi workflow,
+kể cả khi test fail. Có thể tải `allure-results` về máy và mở bằng:
+
+```powershell
+allure serve allure-results
+```
