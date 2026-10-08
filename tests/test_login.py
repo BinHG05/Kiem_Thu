@@ -61,3 +61,9 @@ def test_forgot_password_link_targets_password_recovery(driver):
     login_page = LoginPage(driver).open()
 
     assert login_page.forgot_password_url().endswith("/Login/GetPass")
+
+
+def test_google_login_link_targets_google_accounts(driver):
+    login_page = LoginPage(driver).open()
+
+    assert "accounts.google.com" in login_page.google_login_url()
