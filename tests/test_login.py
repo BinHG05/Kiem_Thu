@@ -35,3 +35,9 @@ def test_password_field_is_masked(driver):
     login_page = LoginPage(driver).open()
 
     assert login_page.password_input_type() == "password"
+
+
+def test_login_button_has_expected_label(driver):
+    login_page = LoginPage(driver).open()
+
+    assert login_page.login_button_text() == "Đăng nhập"
