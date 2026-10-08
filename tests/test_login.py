@@ -1,3 +1,7 @@
+import os
+
+import pytest
+
 from tests.pages import LoginPage
 
 
@@ -67,3 +71,20 @@ def test_google_login_link_targets_google_accounts(driver):
     login_page = LoginPage(driver).open()
 
     assert "accounts.google.com" in login_page.google_login_url()
+
+
+def test_login_success(driver):
+    username = os.getenv("UTC_USER")
+    password = os.getenv("UTC_PASS")
+    if not username or not password:
+        pytest.fail(
+            "TC11 needs credentials: set both UTC_USER and UTC_PASS environment variables."
+        )
+
+    login_page = LoginPage(driver).open()
+    submit_button = login_page.login(username, password)
+
+    assert login_page.wait_for_login_success(submit_button), (
+        "The server responded but remained on /Login. Check the UTC credentials or "
+        "the account's access to the office system."
+    )
