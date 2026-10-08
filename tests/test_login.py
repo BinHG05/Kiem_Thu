@@ -55,3 +55,9 @@ def test_remember_me_can_be_selected(driver):
     login_page.select_remember_me()
 
     assert login_page.is_remember_me_selected()
+
+
+def test_forgot_password_link_targets_password_recovery(driver):
+    login_page = LoginPage(driver).open()
+
+    assert login_page.forgot_password_url().endswith("/Login/GetPass")
