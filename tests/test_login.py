@@ -41,3 +41,9 @@ def test_login_button_has_expected_label(driver):
     login_page = LoginPage(driver).open()
 
     assert login_page.login_button_text() == "Đăng nhập"
+
+
+def test_remember_me_is_unselected_on_first_load(driver):
+    login_page = LoginPage(driver).open()
+
+    assert not login_page.is_remember_me_selected()
